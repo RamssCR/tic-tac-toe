@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => {
   return {
     define: {
       __APP_VERSION__: JSON.stringify(env.VITE_APP_VERSION ?? 'development'),
-      __IS_STAGING__: JSON.stringify(env.NODE_ENV === 'staging'),
+      __IS_STAGING__: JSON.stringify(mode === 'staging'),
     },
     plugins: [
       react({
