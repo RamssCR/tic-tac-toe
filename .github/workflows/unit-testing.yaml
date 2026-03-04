@@ -1,0 +1,56 @@
+name: 🧪 Unit Testing
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint code
+        run: npm run lint
+
+      - name: Run unit tests and generate coverage (JSON included)
+        run: npm run test:coverage -- --coverage.reporter=json-summary
+
+      - name: Validate coverage threshold
+        run: |
+          COVERAGE_FILE="coverage/coverage-summary.json"
+          if [ ! -f "$COVERAGE_FILE" ]; then
+            echo "Coverage summary not found!"
+            exit 1
+          fi
+
+          TOTAL_LINES=$(jq '.total.lines.pct' $COVERAGE_FILE)
+          echo "Total lines coverage: ${TOTAL_LINES}%"
+
+          if (( $(echo "$TOTAL_LINES < 90" | bc -l) )); then
+            echo "Coverage below 90%! Current: ${TOTAL_LINES}%"
+            exit 1
+          else
+            echo "Coverage check passed (${TOTAL_LINES}%)"
+          fi
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/

@@ -1,0 +1,15 @@
+#!/bin/sh
+
+protected_branches="main|develop"
+
+branch_name=$(git rev-parse --abbrev-ref HEAD)
+
+if echo "$protected_branches" | grep -qE "(^|\|)$branch_name($|\|)"; then
+  echo "----------------------------------------------------"
+  echo "HOLD UP! You are trying to push to: $branch_name"
+  echo "This branch is protected by your local pre-push hook."
+  echo "----------------------------------------------------"
+  exit 1
+fi
+
+exit 0

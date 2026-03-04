@@ -1,0 +1,25 @@
+name: 🗃️ File Counter
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check-files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Count Files (modified, deleted, added)
+        id: file_count
+        run: |
+          FILE_COUNT=$(jq '.pull_request.changed_files' "$GITHUB_EVENT_PATH")
+          echo "Files changed: $FILE_COUNT"
+          echo "count=$FILE_COUNT" >> $GITHUB_OUTPUT
+
+      - name: Fail if too many files changed
+        if: steps.file_count.outputs.count > 30
+        run: |
+          echo "❌ Pull Request has more than 30 changed files. Please split into smaller PRs."
+          exit 1

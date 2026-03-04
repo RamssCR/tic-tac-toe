@@ -1,0 +1,17 @@
+name: 🕒 Close old PRs
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'
+  workflow_dispatch: 
+
+jobs:
+  close-old-prs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Close PRs older than 7 days
+        run: |
+          gh pr list --state open --json createdAt,url --jq '.[] | select((now - (.createdAt | fromdate)) > 604800) | .url' | while read url; do
+            gh pr close --comment "Oh, parece que este PR ha estado abierto por un buen tiempo sin mucha acción. Quizás no era tan importante después de todo... cerrando ahora." --delete-branch "1"
+          done
