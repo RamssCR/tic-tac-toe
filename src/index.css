@@ -1,1 +1,168 @@
 @import "tailwindcss";
+
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+
+  --bg:              oklch(96.914% 0.01616 293.61);
+  --surface:         oklch(94.335% 0.02851 294.507);
+  --surface-raised:  oklch(100% 0.00011 271.152);
+  --border:          oklch(89.698% 0.05359 293.487);
+
+  --text-primary:    oklch(25.734% 0.08611 281.294);
+  --text-secondary:  oklch(55.102% 0.02343 264.389);
+  --text-muted:      #9ca3af;
+
+
+  --brand:           #6d5bff;
+  --brand-hover:     #5a48e0;
+  --brand-fg:        #ffffff;
+  --brand-subtle:    #ede9fe;
+
+
+  --x:               #dd2040;
+  --x-subtle:        #ffe4e6;
+
+
+  --o:               #06b6d4;
+  --o-subtle:        hsl(185, 96%, 90%);
+
+
+  --square-bg:       oklch(100% 0.00011 271.152);
+  --square-hover:    oklch(96.914% 0.01616 293.61);
+  --square-border:   oklch(92.994% 0.03354 272.79);
+
+  --winner-glow:     oklch(70.897% 0.15927 293.536);
+}
+
+
+.dark {
+  --bg:              oklch(23.989% 0.04273 253.683);
+  --surface:         oklch(33.2% 0.052 251.5);
+  --surface-raised:  oklch(38.0% 0.045 250.0);
+  --border:          oklch(45.0% 0.040 250.0);
+
+  --text-primary:    oklch(95.5% 0.010 240.0);
+  --text-secondary:  oklch(85.0% 0.020 240.0);
+  --text-muted:      oklch(65.0% 0.030 250.0);
+
+  --brand:           oklch(70.152% 0.12643 178.141);
+  --brand-hover:     oklch(78.0% 0.140 178.5);
+  --brand-fg:        oklch(20.0% 0.040 254.0);
+  --brand-subtle:    oklch(40.0% 0.120 178.0);
+
+  --x:               oklch(74.5% 0.165 178.5);
+  --x-subtle:        oklch(30.0% 0.060 178.0);
+
+  --o:               oklch(95.5% 0.010 240.0);
+  --o-subtle:        oklch(40.0% 0.020 240.0);
+
+  --square-bg:       oklch(33.2% 0.052 251.5);
+  --square-hover:    oklch(38.0% 0.060 250.0);
+  --square-border:   oklch(74.929% 0.01286 259.906);
+
+  --winner-glow:     oklch(85.0% 0.150 178.5);
+}
+
+
+@theme inline {
+  --color-bg:             var(--bg);
+  --color-surface:        var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-border:         var(--border);
+
+  --color-text-primary:   var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted:     var(--text-muted);
+
+  --color-brand:          var(--brand);
+  --color-brand-hover:    var(--brand-hover);
+  --color-brand-fg:       var(--brand-fg);
+  --color-brand-subtle:   var(--brand-subtle);
+
+  --color-x:              var(--x);
+  --color-x-subtle:       var(--x-subtle);
+  --color-o:              var(--o);
+  --color-o-subtle:       var(--o-subtle);
+
+  --color-square-bg:      var(--square-bg);
+  --color-square-hover:   var(--square-hover);
+  --color-square-border:  var(--square-border);
+
+  --color-winner-glow:    var(--winner-glow);
+}
+
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    background-color: var(--bg);
+    color: var(--text-primary);
+    font-family: system-ui, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  body {
+    margin: 0;
+  }
+}
+
+
+@layer components {
+
+  .square-x {
+    color: var(--x);
+    background-color: var(--x-subtle);
+  }
+
+
+  .square-o {
+    color: var(--o);
+    background-color: var(--o-subtle);
+  }
+
+  
+  .square-winner {
+    box-shadow: 0 0 24px 4px color-mix(in srgb, var(--winner-glow) 45%, transparent);
+  }
+}
+
+
+@keyframes pop-in {
+  0%   { transform: scale(0.5) rotate(-10deg); opacity: 0; }
+  70%  { transform: scale(1.18) rotate(4deg); }
+  100% { transform: scale(1) rotate(0deg);    opacity: 1; }
+}
+
+@keyframes pulse-winner {
+  0%, 100% {
+    box-shadow: 0 0 24px 4px color-mix(in srgb, var(--winner-glow) 45%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 40px 10px color-mix(in srgb, var(--winner-glow) 70%, transparent);
+  }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(14px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+
+@layer utilities {
+  .animate-pop-in {
+    animation: pop-in 0.32s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+
+  .animate-winner {
+    animation: pulse-winner 1.5s ease-in-out infinite;
+  }
+
+  .animate-slide-up {
+    animation: slide-up 0.35s ease both;
+  }
+}
