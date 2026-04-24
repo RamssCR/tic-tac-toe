@@ -2,13 +2,8 @@ import { createContext } from 'react'
 
 export type Theme = 'light' | 'dark'
 
-/**
- * Forma del contexto de tema.
- */
-export interface ThemeContextValue {
-  /** Tema activo actualmente. */
+export type ThemeContextValue = {
   theme: Theme
-  /** Alterna entre los modos claro y oscuro. */
   toggleTheme: () => void
 }
 

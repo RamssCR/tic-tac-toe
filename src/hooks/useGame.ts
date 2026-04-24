@@ -1,23 +1,39 @@
 import { useCallback, useState } from 'react'
-import type {
-  BoardState,
-  GameState,
-  Player,
-  Score,
-  SquareIndex,
-} from '@schemas/game'
 import {
   calculateDraw,
   calculateWinner,
   createEmptyBoard,
 } from '@utils/CalculateWinner'
 
-const initialBoard: BoardState = createEmptyBoard()
+export type Player = 'X' | 'O'
+
+export type CellValue = Player | null
+
+export type WinnerResult = {
+  winner: Player
+  line: number[]
+}
+
+export type Score = {
+  X: number
+  O: number
+  ties: number
+}
+
+export type GameState = {
+  board: CellValue[]
+  currentPlayer: Player
+  winnerResult: WinnerResult | null
+  isDraw: boolean
+  history: CellValue[][]
+}
+
+const initialBoard: CellValue[] = createEmptyBoard()
 
 const initialScore: Score = { X: 0, O: 0, ties: 0 }
 
-export interface UseGameReturn extends GameState {
-  handleMove: (index: SquareIndex) => void
+export type UseGameReturn = GameState & {
+  handleMove: (index: number) => void
   resetGame: () => void
   resetAll: () => void
   undoMove: () => void
@@ -36,9 +52,9 @@ export interface UseGameReturn extends GameState {
  * const { board, currentPlayer, winnerResult, handleMove, resetGame } = useGame()
  */
 export const useGame = (): UseGameReturn => {
-  const [board, setBoard] = useState<BoardState>(initialBoard)
+  const [board, setBoard] = useState<CellValue[]>(initialBoard)
   const [currentPlayer, setCurrentPlayer] = useState<Player>('X')
-  const [history, setHistory] = useState<BoardState[]>([])
+  const [history, setHistory] = useState<CellValue[][]>([])
   const [score, setScore] = useState<Score>(initialScore)
 
   const winnerResult = calculateWinner(board)
@@ -66,10 +82,10 @@ export const useGame = (): UseGameReturn => {
    * @param index - Índice de la celda seleccionada (0–8).
    */
   const handleMove = useCallback(
-    (index: SquareIndex) => {
+    (index: number) => {
       if (winnerResult || isDraw || board[index]) return
 
-      const newBoard = board.slice() as BoardState
+      const newBoard = board.slice() as CellValue[]
       newBoard[index] = currentPlayer
 
       const newWinner = calculateWinner(newBoard)

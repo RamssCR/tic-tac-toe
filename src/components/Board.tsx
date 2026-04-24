@@ -1,7 +1,6 @@
 import { Square } from '@components/Square'
 import { useGame } from '@hooks/useGame'
 import { cn } from '@utils/classMerger'
-import type { SquareIndex } from '@schemas/game'
 
 /**
  * Tablero principal del juego Tic-Tac-Toe.
@@ -36,7 +35,7 @@ export const Board = () => {
 
   const statusMessage = (() => {
     if (winnerResult) return `¡Ganó el jugador ${winnerResult.winner}!`
-    if (isDraw) return '¡Empate! 🤝'
+    if (isDraw) return '¡Empate!'
     return `Turno del jugador`
   })()
 
@@ -105,10 +104,10 @@ export const Board = () => {
       >
         {board.map((cell, i) => (
           <Square
-            key={i}
+            key={crypto.randomUUID()}
             value={cell}
-            index={i as SquareIndex}
-            isWinner={winningLine.includes(i as SquareIndex)}
+            index={i}
+            isWinner={winningLine.includes(i)}
             isGameOver={isGameOver}
             onClick={handleMove}
           />
@@ -137,7 +136,7 @@ export const Board = () => {
           aria-label="Iniciar nueva partida"
           className="px-5 py-2 rounded-lg text-sm font-semibold bg-brand text-primary hover:bg-brand-hover active:scale-95 transition-all duration-200"
         >
-          {isGameOver ? '▶ Jugar de nuevo' : '↺ Nueva partida'}
+          {isGameOver ? 'Jugar de nuevo' : 'Nueva partida'}
         </button>
 
         <button

@@ -1,7 +1,7 @@
-import type { BoardState, WinnerResult, SquareIndex } from '@schemas/game'
+import type { CellValue, WinnerResult } from '@hooks/useGame'
 
 /** Todas las combinaciones ganadoras posibles en un tablero 3×3. */
-const WINNING_LINES: [SquareIndex, SquareIndex, SquareIndex][] = [
+const winningLines: [number, number, number][] = [
   [0, 1, 2],
   [3, 4, 5],
   [6, 7, 8],
@@ -22,8 +22,8 @@ const WINNING_LINES: [SquareIndex, SquareIndex, SquareIndex][] = [
  * const result = calculateWinner(['X','X','X',null,null,null,null,null,null])
  * // result → { winner: 'X', line: [0, 1, 2] }
  */
-export const calculateWinner = (board: BoardState): WinnerResult | null => {
-  for (const [a, b, c] of WINNING_LINES) {
+export const calculateWinner = (board: CellValue[]): WinnerResult | null => {
+  for (const [a, b, c] of winningLines) {
     if (board[a] && board[a] === board[b] && board[a] === board[c]) {
       return { winner: board[a]!, line: [a, b, c] }
     }
@@ -39,7 +39,7 @@ export const calculateWinner = (board: BoardState): WinnerResult | null => {
  * @returns `true` si todas las celdas están ocupadas y no hay ganador.
  */
 export const calculateDraw = (
-  board: BoardState,
+  board: CellValue[],
   winnerResult: WinnerResult | null,
 ): boolean => {
   return !winnerResult && board.every((cell) => cell !== null)
@@ -50,7 +50,7 @@ export const calculateDraw = (
  *
  * @returns Un {@link BoardState} con todas las celdas en `null`.
  */
-export const createEmptyBoard = (): BoardState => [
+export const createEmptyBoard = (): CellValue[] => [
   null,
   null,
   null,

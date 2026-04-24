@@ -1,13 +1,13 @@
 import { cn } from '@utils/classMerger'
-import type { CellValue, SquareIndex } from '@schemas/game'
+import type { Player } from '@hooks/useGame'
 
 /** Props del componente `Square`. */
 type SquareProps = {
-  value: CellValue
-  index: SquareIndex
+  value: Player | null
+  index: number
   isWinner: boolean
   isGameOver: boolean
-  onClick: (index: SquareIndex) => void
+  onClick: (index: number) => void
 }
 
 /**

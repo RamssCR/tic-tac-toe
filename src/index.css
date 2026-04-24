@@ -12,21 +12,21 @@
 
   --text-primary:    oklch(25.734% 0.08611 281.294);
   --text-secondary:  oklch(55.102% 0.02343 264.389);
-  --text-muted:      #9ca3af;
+  --text-muted:      oklch(71.4% 0.02059 263.019);
 
 
-  --brand:           #6d5bff;
-  --brand-hover:     #5a48e0;
-  --brand-fg:        #ffffff;
-  --brand-subtle:    #ede9fe;
+  --brand:           oklch(58.564% 0.23297 281.407);
+  --brand-hover:     oklch(51.693% 0.21986 280.803);
+  --brand-fg:        oklch(100% 0.00011 271.152);
+  --brand-subtle:    oklch(94.335% 0.02851 294.507);
 
 
-  --x:               #dd2040;
-  --x-subtle:        #ffe4e6;
+  --x:               oklch(57.867% 0.2173 19.973);
+  --x-subtle:        lch(92.78% 9.85 14.06);
 
 
-  --o:               #06b6d4;
-  --o-subtle:        hsl(185, 96%, 90%);
+  --o:               oklch(71.485% 0.12578 215.256);
+  --o-subtle:        oklch(95.501% 0.0463 203.196);
 
 
   --square-bg:       oklch(100% 0.00011 271.152);
